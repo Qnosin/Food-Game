@@ -21,7 +21,8 @@ Project is created with:
 * Vanilla Javascript
 
 ## Controls
- * left and right arrow to move basket
+ * <del>left and right arrow to move basket</del>
+ * Move your mouse to right to move right , move your Mouse to left to move left
 	
 ## HowToSee?
 * Project is hosted by github-pages
