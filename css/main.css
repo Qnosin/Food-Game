@@ -23,7 +23,7 @@ body {
   background-color: orange;
   position: absolute;
   bottom: 0;
-  background: url("/img/wicker-basket.svg") no-repeat;
+  background: url("./img/wicker-basket.svg") no-repeat;
   background-position: center;
   background-size: contain;
 }
@@ -31,7 +31,7 @@ body {
 .platform-look {
   width: 50px;
   height: 50px;
-  background: url("/img/pineapple-svgrepo-com.svg") no-repeat;
+  background: url("./img/pineapple-svgrepo-com.svg") no-repeat;
   background-position: center;
   background-size: contain;
   position: absolute;
