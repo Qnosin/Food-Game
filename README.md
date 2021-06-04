@@ -29,10 +29,10 @@ Project is created with:
 ## Bugs
 
 * Collision detection is not working as was intendent ,
-  in the future i will rebuild collision detection
+  in the future i will rebuild collision detection //  - [x] solved 
 
 * Responsive design was not aplly in this project, dou to
   Using px unit and not apply media right now , it will be
   changing in next update
 
-* Keyboard keys only , no swipe in mobile
+* Keyboard keys only , no swipe in mobile // - [x] new system featuring only mouse , still not mobile
