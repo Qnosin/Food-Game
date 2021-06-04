@@ -1,8 +1,10 @@
 const player = document.querySelector('.player');
 const container = document.querySelector('.container');
 let points = 0;
-let x = 380;
+let cordinateX = 0;
+let x = 0;
 let lives = 3;
+container.style.cursor = 'none';
 document.querySelector('.life').textContent = `Lives:${lives}`
 document.querySelector('.points').textContent = `points:${points}`
 
@@ -13,21 +15,11 @@ function getRandomNum() {
 
 
 function move() {
-    player.setAttribute('style', `transform: translateX(${x}px)`)
-    window.addEventListener('keydown', (e) => {
-        console.log(e.key);
-        if (e.key == 'ArrowRight') {
-            if (player.style.transform == `translateX(720px)`) {
-
-            } else {
-                player.style.transform = `translateX(${x+=10}px)`;
-            }
-        } else if (e.key == 'ArrowLeft') {
-            if (player.style.transform == `translateX(0px)`) {
-
-            } else {
-                document.querySelector('.player').style.transform = `translateX(${x-=10}px)`;
-            }
+    container.addEventListener('mousemove', (e) => {
+        console.log(e);
+        cordinateX = e.offsetX
+        if (cordinateX <= 720) {
+            player.style.transform = `translateX(${cordinateX}px)`;
         }
     })
 }
@@ -42,9 +34,9 @@ class Platform {
         plat.style.transform = `translateX(${number}px)`;
         console.log(number);
         await container.append(plat);
-        await platformBuilder.movePlatform(plat)
+        await platformBuilder.movePlatform(plat, number)
     }
-    movePlatform(plat) {
+    movePlatform(plat, num) {
         for (let x = 0; x < 6; x++) {
             if (x == 0) {
                 setTimeout(() => {
@@ -69,33 +61,36 @@ class Platform {
                 }, 5000)
             } else if (x == 5) {
                 setTimeout(() => {
-                    plat.style.top = 850 + 'px';
-                    if (plat.style.top == '850px') {
-                        if (plat.style.transform >= player.style.transform || plat.style.transform <= player.style.transform) {
-                            if (plat.style.transform >= player.style.transform) {
-                                container.removeChild(plat);
-                                points++;
-                                document.querySelector('.points').textContent = `points:${points}`
-                                if (points == 4) {
-                                    container.removeChild(player)
-                                    youWin()
-                                }
-                            } else {
-                                container.removeChild(plat);
-                                lives--;
-                                if (lives >= 0) {
-                                    document.querySelector('.life').textContent = `Lives:${lives}`;
-                                } else {
-
-                                }
-                                if (lives == 0) {
-                                    container.removeChild(player)
-                                    gameOver();
-                                }
+                    plat.style.top = 950 + 'px';
+                    if (plat.style.top == '950px') {
+                        let value = cordinateX - num
+                        console.log(value);
+                        if (value > -20 && value < 20) {
+                            container.removeChild(plat);
+                            points++;
+                            document.querySelector('.points').textContent = `points:${points}`
+                            if (points == 4) {
+                                container.removeChild(player)
+                                document.querySelector('.life').textContent = `YouWin`;
+                                document.querySelector('.points').textContent = `YouWin`;
+                                youWin()
                             }
-
+                        } else {
+                            container.removeChild(plat);
+                            lives--;
+                            if (lives >= 0) {
+                                document.querySelector('.life').textContent = `Lives:${lives}`;
+                            } else {}
+                            if (lives == 0) {
+                                container.removeChild(player)
+                                document.querySelector('.life').textContent = `YouLose`;
+                                document.querySelector('.points').textContent = `YouLose`
+                                gameOver();
+                            }
                         }
+
                     }
+
                 }, 6000)
             }
         }
@@ -104,16 +99,21 @@ class Platform {
 const platformBuilder = new Platform(0, 0)
 
 function gameOver() {
+    container.style.cursor = 'auto';
     const text = document.createElement('h1');
-    text.textContent = 'GameOver';
+    text.textContent = 'GameOver' + '↻';
     text.classList.add('gameovertext')
     container.appendChild(text);
 }
 
 function youWin() {
+    container.style.cursor = 'auto';
     const text = document.createElement('h1');
-    text.textContent = 'YouWin';
+    text.textContent = 'YouWin' + '↻';
     text.classList.add('youwintext')
+    text.addEventListener('click', () => {
+        location.reload();
+    })
     container.appendChild(text);
 }
 
@@ -137,7 +137,9 @@ function PlatformloopCreator() {
     }
 }
 window.addEventListener('DOMContentLoaded', move);
-window.addEventListener('DOMContentLoaded', PlatformloopCreator);
+window.addEventListener('DOMContentLoaded', (e) => {
+    PlatformloopCreator();
+});
 
 
 setTimeout(() => {
